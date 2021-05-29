@@ -32,7 +32,8 @@ class TestViews(TestCase):
         self.url_task_list = reverse('task-list')
         self.url_task_detail = reverse('task-detail', args=[1])
         Task.objects.create(
-            title='task1'
+            title='task1',
+            description='desc1'
         )
 
     def test_overview(self):
@@ -49,7 +50,8 @@ class TestViews(TestCase):
 
     def test_task_detail_PUT(self):
         response = self.client.put(self.url_task_detail, {
-            'title': 'task1updated'
+            'title': 'task1updated',
+            'description': 'desc1updated'
         }, content_type='application/json')
 
         self.assertEquals(response.status_code, status.HTTP_200_OK)
@@ -60,7 +62,8 @@ class TestViews(TestCase):
 
     def test_task_create(self):
         response = self.client.post(reverse('task-create'), {
-            'title': 'another item'
+            'title': 'another item',
+            'description': 'another desc'
         }, content_type='application/json')
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         self.assertEquals(Task.objects.count(), 2)
